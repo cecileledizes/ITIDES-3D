@@ -139,14 +139,7 @@ wavefield = {
 ```
 
 ## Test case
-
-
-
-## Versions
-Two branchs :
-* OpenMP : version not updated of the method using multiprocessing
-* **MPI-version** : active development branch using MPI parallelisation (requires petsc4py installation)
-
+Not released yet !
 
 ## Author
 * **Cécile Le Dizes**
