@@ -1,7 +1,7 @@
 # ITIDES-3D
 
 ## Description
-This program is BEM solver for internal tide generation by three-dimensional isolated seamounts.
+This program is BEM solver for internal tide generation by three-dimensional isolated seamounts. For now, the code only supports constant stratification, but the version for vertically-varying stratification is currently being validated.
 
 ### Getting started
 #### Dependencies
