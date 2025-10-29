@@ -1,9 +1,8 @@
 # ITIDES-3D
 
-### Description
 This program is BEM solver for internal tide generation by three-dimensional isolated seamounts. For now, the code only supports constant stratification, but the version for vertically-varying stratification is currently being validated.
 
-### Citing this Work
+## Citing this Work
 
 Please cite the following reference in any published work, presentations, or derived projects that make use of this code or its results.
 
@@ -14,6 +13,7 @@ Please cite the following reference in any published work, presentations, or der
 
 This article provides a detailed description of the numerical method implemented in this source code, as well as validation cases and theoretical background.
 
+## Description
 ### Getting started
 #### Dependencies
 This program is a parallel code in Python, using the following packages : numpy, scipy, os, sys, json, time, logging, petsc4py, mpi4py, matplolib.
