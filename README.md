@@ -28,7 +28,7 @@ To run these programs, the user needs to execute in a terminal
 
 
 #### Program structure
-The method is divided into two main structures. 
+The method is divided into two main steps. 
 
 The file **compute_sources.py** solves the boundary integral equation and computes the source distribution. It calls the following function : 
 * *compute_source_distribution(comm,casefile)* from **source_distribution_tau.py** :
@@ -36,7 +36,7 @@ This function reads the casefile containing informations on the frequencies, the
 topography and solves the boundary integral equation using a linear solver from the petsc4py package.
 Once the source distribution is computed, it is saved in the sourcefile.
 
-The file **compute_wavefield.py** compute the internal waves field. It calls the following function : 
+The file **compute_wavefield.py** computes the internal waves field. It calls the following function : 
 * *compute_wavefield(comm, casefile, list_pmax)*  from **wavefield.py** :
 This function reads the casefile as well as the sourcefile, to compute the convolution gn*S and saves in the output file wavefile the dimensionless values
 of the modal velocities -un,vn,wn-, the modal pressure -pn-, as well as the modal energy flux -Jn_x, Jn_y- and conversion rate Cn.
@@ -45,7 +45,6 @@ All the input and output files are detailled in the next section.
 
 Several other python files are also contained in the project : 
 * **topographyGeneration.py** : generates topography files for simple idealised topographies (gaussian, bumps, ...)
-* **generateCasefile.py** : generates the casefile (in the json format) and the topography file
 * **plots.py** : contains all the functions to plot the topography, the source distribution or the wavefield
 
 
