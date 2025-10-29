@@ -19,28 +19,34 @@ This article provides a detailed description of the numerical method implemented
 This program is a parallel code in Python, using the following packages : numpy, scipy, os, sys, json, time, logging, petsc4py, mpi4py, matplolib.
 
 #### Executing program
-To run the program, the user 
-```python main.py casename.json```
+The repository holds two executable programs : **compute_sources.py** and **compute_wavefield.py**.
+To run these programs, the user needs to execute in a terminal
+
+```python compute_sources.py casename.json```
+
+```python compute_wavefield.py casename.json```
 
 
 #### Program structure
-The file **main.py** calls the two following functions : 
-* *compute_source_distribution(comm,casefile)* from **source_distribution.py** :
+The method is divided into two main structures. 
+
+The file **compute_sources.py** solves the boundary integral equation and computes the source distribution. It calls the following function : 
+* *compute_source_distribution(comm,casefile)* from **source_distribution_tau.py** :
 This function reads the casefile containing informations on the frequencies, the maximum number of modes and the solver to use, as well as the topography file (with the data on the bathymetry). The function then computes the matrix M in parallel using the dimensionless values of the 
 topography and solves the boundary integral equation using a linear solver from the petsc4py package.
 Once the source distribution is computed, it is saved in the sourcefile.
+
+The file **compute_wavefield.py** compute the internal waves field. It calls the following function : 
 * *compute_wavefield(comm, casefile, list_pmax)*  from **wavefield.py** :
 This function reads the casefile as well as the sourcefile, to compute the convolution gn*S and saves in the output file wavefile the dimensionless values
 of the modal velocities -un,vn,wn-, the modal pressure -pn-, as well as the modal energy flux -Jn_x, Jn_y- and conversion rate Cn.
 
 All the input and output files are detailled in the next section.
 
-
 Several other python files are also contained in the project : 
 * **topographyGeneration.py** : generates topography files for simple idealised topographies (gaussian, bumps, ...)
 * **generateCasefile.py** : generates the casefile (in the json format) and the topography file
 * **plots.py** : contains all the functions to plot the topography, the source distribution or the wavefield
-* various test files ...
 
 
 ### Input files
@@ -52,37 +58,40 @@ casefile = {
     "casename" : 'casename',       # Name of case
 
     # Physical parameters
-    "N_type" : 'constant',         # Brunt-Vaissala frequency type : 'constant', 'file'
-    "N"      : 0.002,              # Brunt-Vaissala frequency value (Hz) or filename
+    "N_type" : 'constant',         # Brunt-Vaissala frequency type : 'constant' (only type supported for now)
+    "N"      : 0.002,              # Brunt-Vaissala frequency value (Hz)
     "omega"  : 0.00014 ,           # Tidal frequency (Hz)
     "f"      : 0.00001,            # Coriolis frequency (Hz)
-    "U0"     : 0.04,               # Velocity of the tide (cm/s) in the x-direction (cm/s)
-    "V0"     : 0,                  # Velocity of the tide in the y-direction (cm/s) - complex for elliptic tide
+    "U0r"    : 0.04,               # Real value of the velocity of the tide in the x-direction (cm/s)
+    "U0i"    : 0,                  # Imaginary value of the velocity of the tide in the x-direction (cm/s)
+    "V0r"    : 0,                  # Real value of the velocity of the tide in the y-direction (cm/s)
+    "V0i"    : 0,                  # Imaginary value of the velocity of the tide in the y-direction (cm/s)
     "rho0"   : 1e3,                # Reference density (kg/m3)
     "H0"     : -3000,              # Ocean depth (m)
 
     # Topography
     "topofile" : 'topofile.npy',   # Name of the npy file that describes the topography
-    "L"        : 10000,            # Standard length of the topo (for adim) (m)
-    "Gamma"    : 1000,             # Standard height of the topo (m)
+    "L"        : 10000,            # Standard length of the topo in the x-direction (for adim) (m)
+    "Lambda"   : 1000,             # Standard height of the topo (m)
+    "Gamma"    : 1,                # Ratio Ly/Lx
 
     # Sources
     "sourceCalculation" : True,    # if True, the source distribution is computed
     "plotSources" : True,          # if True, the source distribution is plotted
     "list_pmax"   : [100,150],     # List of maximal mode used for source distribution
     "solver_name" :'gmres',        # Name of petsc4py solver used for system resolution (default 'gmres')
-    "pc_name"     :'None',         # Name of preconditionner used for system resolution (default 'None')
-    "rtol"        : 1e-8,          # Convergence criteria (default = 1e-10)
-    "atol"        : 1e-15,         # Convergence criteria (default = 1e-15)
+    "pc_name"     :'jacobi',       # Name of preconditionner used for system resolution (default 'None')
+    "rtol"        : 1e-8,          # Relative convergence criteria (default = 1e-10)
+    "atol"        : 1e-15,         # Absolute convergence criteria (default = 1e-15)
     "divtol"      : 100,           # Divergence criteria (default = 100)
-    "max_it"      : 1500,          # Max number of iterations for system resolution (default = 1000)
+    "max_it"      : 500,           # Max number of iterations for system resolution (default = 1000)
 
     # Wavefield
     "wavefieldCalculation" : False, # if True, the wavefield is computed
     "plotWavefield" : False,        # if True, the wavefield is plotted
     "nmodes" : 20,                  # Wavefield reconstructed for modes between 1 and nmodes
-    "Xmax"   : 6*Xmax,              # Domain used for reconstruction [-Xmax, Xmax]x[-Ymax,Ymax]
-    "Ymax"   : 6*Xmax
+    "Xmax"   : 3*np.pi,             # Dimensionless domain used for reconstruction [-Xmax, Xmax]x[-Ymax,Ymax]
+    "Ymax"   : 3*np.pi
 }
 ```
 
