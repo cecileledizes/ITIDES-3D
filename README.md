@@ -1,7 +1,18 @@
 # ITIDES-3D
 
-## Description
+### Description
 This program is BEM solver for internal tide generation by three-dimensional isolated seamounts. For now, the code only supports constant stratification, but the version for vertically-varying stratification is currently being validated.
+
+### Citing this Work
+
+Please cite the following reference in any published work, presentations, or derived projects that make use of this code or its results.
+
+> **Le Dizes, C.**, Grisouard, N., Thual, O., & Mercier, M. J. (2025).  
+> *Three-dimensional modelling of internal tide generation over isolated seamounts in a rotating ocean.*  
+> **Journal of Fluid Mechanics, 1022**, A5.  
+> [https://doi.org/10.1017/jfm.2025.10647](https://doi.org/10.1017/jfm.2025.10647)
+
+This article provides a detailed description of the numerical method implemented in this source code, as well as validation cases and theoretical background.
 
 ### Getting started
 #### Dependencies
